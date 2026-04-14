@@ -187,8 +187,13 @@ function showVideo(){
 
 // الويتر
 function callWaiter(){
-  fetch("https://maker.ifttt.com/trigger/call_waiter/with/key/mZbqF0ZBJj8sdHEPffs6Q3b2ZMg4hOXyHwBKWY8NxrL")
-  .then(() => alert("تم الطلب ✅"));
+  const table = getTable();
+
+  fetch("https://api.telegram.org/bot8630711499:AAFUvfT-3FpDk8SJcGv6_BA8qjQJviviqSQ/sendMessage?chat_id=6788891315&text=🚨 Table " + table + " طلب ويتر")
+
+  .then(() => {
+    alert("تم طلب الويتر للطاولة " + table);
+  });
 }
 
 // الألعاب
