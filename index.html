@@ -2,27 +2,85 @@
 <html>
 <head>
   <title>Smart Table</title>
+
+  <!-- مهم للموبايل -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      background: #111;
+      color: white;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+    }
+
+    button {
+      width: 90%;
+      max-width: 400px;
+      padding: 20px;
+      margin: 10px;
+      font-size: 20px;
+      border-radius: 15px;
+      border: none;
+      background: #ff6600;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff8533;
+    }
+
+    #content {
+      margin-top: 30px;
+    }
+
+    img {
+      width: 90%;
+      max-width: 400px;
+      margin: 10px;
+      border-radius: 10px;
+    }
+
+    iframe {
+      width: 90%;
+      max-width: 400px;
+      height: 220px;
+    }
+
+    a {
+      display: block;
+      margin: 10px;
+      font-size: 20px;
+      color: #00ccff;
+    }
+  </style>
 </head>
 
-<body style="text-align:center; font-family:sans-serif;">
+<body>
 
 <h1>🍽️ Welcome</h1>
 
-<button onclick="showMenu()">📖 المنيو</button><br><br>
-<button onclick="openLocation()">📍 اللوكيشن</button><br><br>
-<button onclick="showVideo()">🎥 فيديو</button><br><br>
-<button onclick="callWaiter()">🚨 نداء ويتر</button><br><br>
+<button onclick="showMenu()">📖 المنيو</button>
+<button onclick="openLocation()">📍 اللوكيشن</button>
+<button onclick="showVideo()">🎥 فيديو</button>
+<button onclick="callWaiter()">🚨 نداء ويتر</button>
 <button onclick="showGames()">🎮 ألعاب</button>
 
-<div id="content" style="margin-top:30px;"></div>
+<div id="content"></div>
 
 <script>
 
 function showMenu(){
   document.getElementById("content").innerHTML = `
     <h2>المنيو</h2>
-    <img src="https://via.placeholder.com/300"><br>
-    <img src="https://via.placeholder.com/300">
+    <img src="https://via.placeholder.com/400">
+    <img src="https://via.placeholder.com/400">
   `;
 }
 
@@ -33,9 +91,7 @@ function openLocation(){
 function showVideo(){
   document.getElementById("content").innerHTML = `
     <h2>فيديو</h2>
-    <iframe width="300" height="200"
-    src="https://www.youtube.com/embed/dQw4w9WgXcQ">
-    </iframe>
+    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
   `;
 }
 
@@ -49,7 +105,7 @@ function callWaiter(){
 function showGames(){
   document.getElementById("content").innerHTML = `
     <h2>ألعاب</h2>
-    <a href="https://skribbl.io" target="_blank">🎨 لعبة رسم</a><br>
+    <a href="https://skribbl.io" target="_blank">🎨 لعبة رسم</a>
     <a href="https://garticphone.com" target="_blank">😂 لعبة جماعية</a>
   `;
 }
