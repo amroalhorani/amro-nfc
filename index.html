@@ -189,7 +189,7 @@ function showVideo(){
 function callWaiter(){
   const table = getTable();
 
-  fetch("https://api.telegram.org/bot8630711499:AAFUvfT-3FpDk8SJcGv6_BA8qjQJviviqSQ/sendMessage?chat_id=6788891315&text=🚨 Table " + table + " طلب ويتر")
+  fetch("https://api.telegram.org/bottoken/sendMessage?chat_id=&text=🚨 Table " + table + " طلب ويتر")
 
   .then(() => {
     alert("تم طلب الويتر للطاولة " + table);
