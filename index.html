@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Table</title>
+</head>
+
+<body style="text-align:center; font-family:sans-serif;">
+
+<h1>🍽️ Welcome</h1>
+
+<button onclick="showMenu()">📖 المنيو</button><br><br>
+<button onclick="openLocation()">📍 اللوكيشن</button><br><br>
+<button onclick="showVideo()">🎥 فيديو</button><br><br>
+<button onclick="callWaiter()">🚨 نداء ويتر</button><br><br>
+<button onclick="showGames()">🎮 ألعاب</button>
+
+<div id="content" style="margin-top:30px;"></div>
+
+<script>
+
+function showMenu(){
+  document.getElementById("content").innerHTML = `
+    <h2>المنيو</h2>
+    <img src="https://via.placeholder.com/300"><br>
+    <img src="https://via.placeholder.com/300">
+  `;
+}
+
+function openLocation(){
+  window.open("https://maps.google.com/?q=Amman", "_blank");
+}
+
+function showVideo(){
+  document.getElementById("content").innerHTML = `
+    <h2>فيديو</h2>
+    <iframe width="300" height="200"
+    src="https://www.youtube.com/embed/dQw4w9WgXcQ">
+    </iframe>
+  `;
+}
+
+function callWaiter(){
+  fetch("https://maker.ifttt.com/trigger/call_waiter/with/key/PUT_YOUR_KEY_HERE")
+  .then(() => {
+    alert("تم طلب الويتر ✅");
+  });
+}
+
+function showGames(){
+  document.getElementById("content").innerHTML = `
+    <h2>ألعاب</h2>
+    <a href="https://skribbl.io" target="_blank">🎨 لعبة رسم</a><br>
+    <a href="https://garticphone.com" target="_blank">😂 لعبة جماعية</a>
+  `;
+}
+
+</script>
+
+</body>
+</html>
