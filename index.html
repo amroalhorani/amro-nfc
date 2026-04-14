@@ -17,12 +17,22 @@ body {
 
 h1 {
   padding: 20px;
-  font-size: 32px;
+  font-size: 34px;
+}
+
+.lang-btn {
+  margin: 10px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: #ff6600;
+  border: none;
+  color: white;
+  font-size: 16px;
 }
 
 .container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 15px;
   padding: 20px;
 }
@@ -31,33 +41,40 @@ h1 {
   background: #222;
   padding: 25px;
   border-radius: 20px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: 0.3s;
+  font-size: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.card:hover {
-  transform: scale(1.05);
-  background: #333;
+.card span {
+  cursor: pointer;
+}
+
+.mic {
+  font-size: 22px;
+  cursor: pointer;
 }
 
 .big {
-  grid-column: span 2;
   background: #ff6600;
 }
 
 #content {
   padding: 20px;
 }
+
 img {
-  width: 90%;
+  width: 95%;
   margin: 10px;
   border-radius: 10px;
 }
+
 iframe {
-  width: 90%;
+  width: 95%;
   height: 220px;
 }
+
 a {
   display: block;
   margin: 10px;
@@ -69,17 +86,37 @@ a {
 
 <body>
 
-<h1>🍽️ Welcome</h1>
+<h1>🍽️ Smart Table</h1>
+
+<button class="lang-btn" onclick="setLang('ar')">عربي</button>
+<button class="lang-btn" onclick="setLang('en')">English</button>
 
 <div class="container">
 
-<div class="card" onclick="showMenu()">📖 المنيو</div>
-<div class="card" onclick="openLocation()">📍 الموقع</div>
+<div class="card">
+<span onclick="showMenu()"><span id="menuText">📖 المنيو</span></span>
+<span class="mic" onclick="speak('menu')">🎤</span>
+</div>
 
-<div class="card" onclick="showVideo()">🎥 فيديو</div>
-<div class="card big" onclick="callWaiter()">🚨 نداء ويتر</div>
+<div class="card">
+<span onclick="openLocation()"><span id="locText">📍 الموقع</span></span>
+<span class="mic" onclick="speak('location')">🎤</span>
+</div>
 
-<div class="card" onclick="showGames()">🎮 ألعاب</div>
+<div class="card">
+<span onclick="showVideo()"><span id="videoText">🎥 فيديو</span></span>
+<span class="mic" onclick="speak('video')">🎤</span>
+</div>
+
+<div class="card big">
+<span onclick="callWaiter()"><span id="waiterText">🚨 نداء ويتر</span></span>
+<span class="mic" onclick="speak('waiter')">🎤</span>
+</div>
+
+<div class="card">
+<span onclick="showGames()"><span id="gamesText">🎮 ألعاب</span></span>
+<span class="mic" onclick="speak('games')">🎤</span>
+</div>
 
 </div>
 
@@ -87,37 +124,75 @@ a {
 
 <script>
 
+let lang = "ar";
+
+const text = {
+  ar: {
+    menu: "المنيو",
+    location: "الموقع",
+    video: "فيديو",
+    waiter: "نداء ويتر",
+    games: "ألعاب"
+  },
+  en: {
+    menu: "Menu",
+    location: "Location",
+    video: "Video",
+    waiter: "Call Waiter",
+    games: "Games"
+  }
+};
+
+function setLang(l){
+  lang = l;
+  document.getElementById("menuText").innerText = text[l].menu;
+  document.getElementById("locText").innerText = text[l].location;
+  document.getElementById("videoText").innerText = text[l].video;
+  document.getElementById("waiterText").innerText = text[l].waiter;
+  document.getElementById("gamesText").innerText = text[l].games;
+}
+
+// 🎤 الصوت
+function speak(type){
+  const msg = new SpeechSynthesisUtterance(text[lang][type]);
+  msg.lang = lang === "ar" ? "ar-SA" : "en-US";
+  speechSynthesis.speak(msg);
+}
+
+// المنيو
 function showMenu(){
   document.getElementById("content").innerHTML = `
-    <h2>📖 المنيو</h2>
+    <h2>${text[lang].menu}</h2>
     <img src="https://via.placeholder.com/400">
     <img src="https://via.placeholder.com/400">
   `;
 }
 
+// الموقع
 function openLocation(){
   window.open("https://maps.google.com/?q=Amman", "_blank");
 }
 
+// الفيديو
 function showVideo(){
   document.getElementById("content").innerHTML = `
-    <h2>🎥 فيديو</h2>
+    <h2>${text[lang].video}</h2>
     <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
   `;
 }
 
+// الويتر
 function callWaiter(){
   fetch("https://maker.ifttt.com/trigger/call_waiter/with/key/PUT_YOUR_KEY_HERE")
-  .then(() => {
-    alert("تم طلب الويتر ✅");
-  });
+  .then(() => alert("تم الطلب ✅"));
 }
 
+// الألعاب
 function showGames(){
   document.getElementById("content").innerHTML = `
-    <h2>🎮 ألعاب</h2>
-    <a href="https://skribbl.io" target="_blank">🎨 لعبة رسم</a>
-    <a href="https://garticphone.com" target="_blank">😂 لعبة جماعية</a>
+    <h2>${text[lang].games}</h2>
+    <a href="https://skribbl.io" target="_blank">🎨 Draw Game</a>
+    <a href="https://garticphone.com" target="_blank">😂 Party Game</a>
   `;
 }
 
