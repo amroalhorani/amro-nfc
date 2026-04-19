@@ -189,11 +189,9 @@ function showVideo(){
 function callWaiter(){
   const table = getTable();
 
-  fetch("https://api.telegram.org/bottoken/sendMessage?chat_id=&text=🚨 Table " + table + " طلب ويتر")
+  fetch("https://script.google.com/macros/s/AKfycbzCKOX3kONRiD36LrnsS93Flt1nRJsCu4gKCp3mzCgF833XVuUQ_HLdZo0Rq9nttFUs/exec?table=" + table + "&type=waiter&key=012305");
 
-  .then(() => {
-    alert("تم طلب الويتر للطاولة " + table);
-  });
+  alert("تم طلب الويتر للطاولة " + table);
 }
 
 // الألعاب
