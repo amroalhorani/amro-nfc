@@ -113,6 +113,11 @@ a {
 <span class="mic" onclick="speak('waiter')">🎤</span>
 </div>
 
+  <div class="card">
+  <span onclick="requestBill()">💰 الفاتورة</span>
+  <span class="mic" onclick="speak('bill')">🎤</span>
+</div>
+  
 <div class="card">
 <span onclick="showGames()"><span id="gamesText">🎮 ألعاب</span></span>
 <span class="mic" onclick="speak('games')">🎤</span>
@@ -194,6 +199,14 @@ function callWaiter(){
   alert("تم طلب الويتر للطاولة " + table);
 }
 
+  function requestBill(){
+  const table = getTable();
+
+  fetch("https://script.google.com/macros/s/AKfycbzCKOX3kONRiD36LrnsS93Flt1nRJsCu4gKCp3mzCgF833XVuUQ_HLdZo0Rq9nttFUs/exec?table=" + table + "&type=bill&key=999999");
+
+  alert("تم طلب الفاتورة للطاولة " + table);
+}
+  
 // الألعاب
 function showGames(){
   document.getElementById("content").innerHTML = `
