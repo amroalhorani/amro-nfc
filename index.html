@@ -113,11 +113,11 @@ a {
 <span class="mic" onclick="speak('waiter')">🎤</span>
 </div>
 
-  <div class="card">
-  <span onclick="requestBill()">💰 الفاتورة</span>
-  <span class="mic" onclick="speak('bill')">🎤</span>
+<div class="card">
+<span onclick="requestBill()"><span id="billText">💰 الفاتورة</span></span>
+<span class="mic" onclick="speak('bill')">🎤</span>
 </div>
-  
+
 <div class="card">
 <span onclick="showGames()"><span id="gamesText">🎮 ألعاب</span></span>
 <span class="mic" onclick="speak('games')">🎤</span>
@@ -137,24 +137,28 @@ const text = {
     location: "الموقع",
     video: "فيديو",
     waiter: "نداء ويتر",
-    games: "ألعاب"
+    games: "ألعاب",
+    bill: "الفاتورة"
   },
   en: {
     menu: "Menu",
     location: "Location",
     video: "Video",
     waiter: "Call Waiter",
-    games: "Games"
+    games: "Games",
+    bill: "Bill"
   }
 };
 
 function setLang(l){
   lang = l;
-  document.getElementById("menuText").innerText = text[l].menu;
-  document.getElementById("locText").innerText = text[l].location;
-  document.getElementById("videoText").innerText = text[l].video;
-  document.getElementById("waiterText").innerText = text[l].waiter;
-  document.getElementById("gamesText").innerText = text[l].games;
+
+  document.getElementById("menuText").innerText = "📖 " + text[l].menu;
+  document.getElementById("locText").innerText = "📍 " + text[l].location;
+  document.getElementById("videoText").innerText = "🎥 " + text[l].video;
+  document.getElementById("waiterText").innerText = "🚨 " + text[l].waiter;
+  document.getElementById("gamesText").innerText = "🎮 " + text[l].games;
+  document.getElementById("billText").innerText = "💰 " + text[l].bill;
 }
 
 // 🎤 الصوت
@@ -169,12 +173,17 @@ function showMenu(){
   document.getElementById("content").innerHTML = `
     <h2>${text[lang].menu}</h2>
 
-    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194629/1_fr367x.jpg" style="width:100%;">
-    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/9_ljn4uk.jpg" style="width:100%;">
-    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/4_joqmep.jpg" style="width:100%;">
-    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/5_azsne8.jpg" style="width:100%;">
-    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/6_fv3i5l.jpg" style="width:100%;">
+    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194629/1_fr367x.jpg">
+    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/9_ljn4uk.jpg">
+    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/4_joqmep.jpg">
+    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/5_azsne8.jpg">
+    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/6_fv3i5l.jpg">
   `;
+
+  window.scrollTo({
+    top: document.getElementById("content").offsetTop,
+    behavior: "smooth"
+  });
 }
 
 // الموقع
@@ -186,8 +195,13 @@ function openLocation(){
 function showVideo(){
   document.getElementById("content").innerHTML = `
     <h2>${text[lang].video}</h2>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/5QG4drW8zdY?si=ZmSLNz8yzcHsQXTR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/5QG4drW8zdY" allowfullscreen></iframe>
   `;
+
+  window.scrollTo({
+    top: document.getElementById("content").offsetTop,
+    behavior: "smooth"
+  });
 }
 
 // الويتر
@@ -199,14 +213,15 @@ function callWaiter(){
   alert("تم طلب الويتر للطاولة " + table);
 }
 
-  function requestBill(){
+// الفاتورة
+function requestBill(){
   const table = 5;
 
-  fetch("https://script.google.com/macros/s/AKfycbzCKOX3kONRiD36LrnsS93Flt1nRJsCu4gKCp3mzCgF833XVuUQ_HLdZo0Rq9nttFUs/exec?table=" + table + "&type=bill&key=012305");
+  fetch("https://script.google.com/macros/s/AKfycbzCKOX3kONRiD36LrnsS93Flt1nRJsCu4gKCp3mzCgF833XVuUQ_HLdZo0Rq9nttFUs/exec?table=" + table + "&type=bill&key=******");
 
-  alert("💰 تم إرسال طلب الفاتورة بنجاح");
+  alert(lang === "ar" ? "💰 تم إرسال طلب الفاتورة" : "💰 Bill request sent");
 }
-  
+
 // الألعاب
 function showGames(){
   document.getElementById("content").innerHTML = `
@@ -216,6 +231,11 @@ function showGames(){
     <a href="https://garticphone.com" target="_blank">😂 لعبة جماعية</a>
     <a href="https://www.codenames.game" target="_blank">🧠 لعبة ذكاء</a>
   `;
+
+  window.scrollTo({
+    top: document.getElementById("content").offsetTop,
+    behavior: "smooth"
+  });
 }
 
 </script>
