@@ -219,7 +219,7 @@ function requestBill(){
 
   fetch("https://script.google.com/macros/s/AKfycbzCKOX3kONRiD36LrnsS93Flt1nRJsCu4gKCp3mzCgF833XVuUQ_HLdZo0Rq9nttFUs/exec?table=" + table + "&type=bill&key=012305");
 
-  alert(lang === "ar" ? "💰 تم إرسال طلب الفاتورة" : "💰 Bill request sent");
+  window.open("bill.html?table=" + table, "_blank");
 }
 
 // الألعاب
