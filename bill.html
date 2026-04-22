@@ -139,13 +139,29 @@ const baseURL = "https://script.google.com/macros/s/AKfycbzCKOX3kONRiD36LrnsS93F
 const key = "012305"; // 🔴 رجّع رقمك السري
 
 function payCash(){
-  fetch(baseURL + "?table=" + table + "&type=cash&key=" + key);
-  alert("تم طلب الدفع كاش");
+  fetch(baseURL + "?table=" + table + "&type=cash&key=" + key)
+    .then(res => res.text())
+    .then(data => {
+      console.log("CASH RESPONSE:", data);
+      alert("تم طلب الدفع كاش");
+    })
+    .catch(err => {
+      console.log("ERROR CASH:", err);
+      alert("فشل إرسال الطلب");
+    });
 }
 
 function payCard(){
-  fetch(baseURL + "?table=" + table + "&type=card&key=" + key);
-  alert("تم طلب الدفع فيزا");
+  fetch(baseURL + "?table=" + table + "&type=card&key=" + key)
+    .then(res => res.text())
+    .then(data => {
+      console.log("CARD RESPONSE:", data);
+      alert("تم طلب الدفع فيزا");
+    })
+    .catch(err => {
+      console.log("ERROR CARD:", err);
+      alert("فشل إرسال الطلب");
+    });
 }
 
 // 🟢 تحميل الفاتورة
