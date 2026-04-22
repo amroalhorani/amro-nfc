@@ -1,1 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>فاتورة</title>
+
+<style>
+body{
+  margin:0;
+  font-family: Arial;
+  background:#111;
+  color:white;
+  text-align:center;
+}
+
+.container{
+  padding:20px;
+}
+
+.box{
+  background:#222;
+  padding:20px;
+  border-radius:20px;
+  max-width:400px;
+  margin:auto;
+}
+
+h1{
+  color:#ff6600;
+}
+
+.item{
+  display:flex;
+  justify-content:space-between;
+  margin:8px 0;
+}
+
+.total{
+  margin-top:15px;
+  font-size:20px;
+  border-top:1px solid #555;
+  padding-top:10px;
+}
+
+button{
+  margin:10px;
+  padding:12px 20px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.pay{background:#ff6600;color:white;}
+.cash{background:green;color:white;}
+.card{background:#0066ff;color:white;}
+.download{background:#444;color:white;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="box">
+
+<h1>🧾 فاتورة</h1>
+
+<p id="table"></p>
+
+<div id="items"></div>
+
+<div class="total" id="total"></div>
+
+<button class="pay" onclick="showPayment()">💰 طلب الدفع</button>
+
+<div id="paymentOptions" style="display:none;">
+  <button class="cash" onclick="payCash()">💵 كاش</button>
+  <button class="card" onclick="payCard()">💳 Visa</button>
+</div>
+
+<button class="download" onclick="downloadBill()">📥 تحميل الفاتورة</button>
+
+</div>
+</div>
+
+<script>
+
+// 🟢 رقم الطاولة
+const urlParams = new URLSearchParams(window.location.search);
+const table = urlParams.get("table") || 1;
+
+document.getElementById("table").innerText = "رقم الطاولة: " + table;
+
+// 🟢 بيانات وهمية حسب الطاولة (Demo)
+const bills = {
+  1: [
+    {name:"🍔 برجر", price:5},
+    {name:"🥤 كولا", price:2}
+  ],
+  5: [
+    {name:"🍕 بيتزا", price:8},
+    {name:"🥤 عصير", price:3}
+  ],
+  7: [
+    {name:"🍝 باستا", price:6},
+    {name:"☕ قهوة", price:2}
+  ]
+};
+
+const items = bills[table] || [
+  {name:"🍔 برجر", price:5}
+];
+
+let total = 0;
+
+const itemsDiv = document.getElementById("items");
+
+items.forEach(item=>{
+  itemsDiv.innerHTML += `
+    <div class="item">
+      <span>${item.name}</span>
+      <span>${item.price} JD</span>
+    </div>
+  `;
+  total += item.price;
+});
+
+document.getElementById("total").innerText = "المجموع: " + total + " JD";
+
+// 🟢 إظهار خيارات الدفع
+function showPayment(){
+  document.getElementById("paymentOptions").style.display = "block";
+}
+
+// 🟢 روابط الإشعارات (نفس سكربتك)
+const baseURL = "https://script.google.com/macros/s/AKfycbzCKOX3kONRiD36LrnsS93Flt1nRJsCu4gKCp3mzCgF833XVuUQ_HLdZo0Rq9nttFUs/exec";
+const key = "******"; // 🔴 رجّع رقمك السري
+
+function payCash(){
+  fetch(baseURL + "?table=" + table + "&type=cash&key=" + key);
+  alert("تم طلب الدفع كاش");
+}
+
+function payCard(){
+  fetch(baseURL + "?table=" + table + "&type=card&key=" + key);
+  alert("تم طلب الدفع فيزا");
+}
+
+// 🟢 تحميل الفاتورة
+function downloadBill(){
+  window.print();
+}
+
+</script>
+
+</body>
+</html>
