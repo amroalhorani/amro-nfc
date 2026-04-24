@@ -64,6 +64,54 @@ h1 {
   padding: 20px;
 }
 
+/* 🔥 تصميم الألعاب */
+.games-grid {
+  display: grid;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.game-card {
+  background: #222;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.game-card:hover {
+  transform: scale(1.03);
+}
+
+.game-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.game-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.game-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.game-card button {
+  background: #ff6600;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.mic-btn {
+  background: #444;
+}
+
 img {
   width: 95%;
   margin: 10px;
@@ -73,13 +121,6 @@ img {
 iframe {
   width: 95%;
   height: 220px;
-}
-
-a {
-  display: block;
-  margin: 10px;
-  color: #00ccff;
-  font-size: 18px;
 }
 </style>
 </head>
@@ -138,7 +179,8 @@ const text = {
     video: "فيديو",
     waiter: "نداء ويتر",
     games: "ألعاب",
-    bill: "الفاتورة"
+    bill: "الفاتورة",
+    play: "العب الآن"
   },
   en: {
     menu: "Menu",
@@ -146,7 +188,8 @@ const text = {
     video: "Video",
     waiter: "Call Waiter",
     games: "Games",
-    bill: "Bill"
+    bill: "Bill",
+    play: "Play Now"
   }
 };
 
@@ -161,79 +204,100 @@ function setLang(l){
   document.getElementById("billText").innerText = "💰 " + text[l].bill;
 }
 
-// 🎤 الصوت
 function speak(type){
   const msg = new SpeechSynthesisUtterance(text[lang][type]);
   msg.lang = lang === "ar" ? "ar-SA" : "en-US";
   speechSynthesis.speak(msg);
 }
 
-// المنيو
+function speakCustom(textToSpeak){
+  const msg = new SpeechSynthesisUtterance(textToSpeak);
+  msg.lang = lang === "ar" ? "ar-SA" : "en-US";
+  speechSynthesis.speak(msg);
+}
+
 function showMenu(){
   document.getElementById("content").innerHTML = `
     <h2>${text[lang].menu}</h2>
-
     <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194629/1_fr367x.jpg">
     <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/9_ljn4uk.jpg">
     <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/4_joqmep.jpg">
     <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/5_azsne8.jpg">
     <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/6_fv3i5l.jpg">
   `;
-
-  window.scrollTo({
-    top: document.getElementById("content").offsetTop,
-    behavior: "smooth"
-  });
+  window.scrollTo({top: content.offsetTop, behavior: "smooth"});
 }
 
-// الموقع
 function openLocation(){
   window.open("https://maps.google.com/?q=Amman", "_blank");
 }
 
-// الفيديو
 function showVideo(){
   document.getElementById("content").innerHTML = `
     <h2>${text[lang].video}</h2>
     <iframe src="https://www.youtube.com/embed/5QG4drW8zdY" allowfullscreen></iframe>
   `;
-
-  window.scrollTo({
-    top: document.getElementById("content").offsetTop,
-    behavior: "smooth"
-  });
+  window.scrollTo({top: content.offsetTop, behavior: "smooth"});
 }
 
-// الويتر
 function callWaiter(){
   const table = 5;
-
   fetch("https://script.google.com/macros/s/AKfycbwoDcztWW5XV8zeyniCKI97adi1w8uPVzCZ_TohYwLq1Hc7jSq_gkO9Y-R925fM62iU/exec?table=" + table + "&type=waiter&key=012305");
-
   alert("تم طلب الويتر للطاولة " + table);
 }
 
-// الفاتورة
 function requestBill(){
   const table = 5;
   window.open("bill.html?table=" + table, "_blank");
 }
 
-// الألعاب
+/* 🔥 الألعاب الجديدة */
 function showGames(){
   document.getElementById("content").innerHTML = `
     <h2>${text[lang].games}</h2>
 
-    <a href="https://skribbl.io" target="_blank">🎨 لعبة رسم</a>
-    <a href="https://garticphone.com" target="_blank">😂 لعبة جماعية</a>
-    <a href="https://www.codenames.game" target="_blank">🧠 لعبة ذكاء</a>
-    <a href="https://www.jm3tmafia.com/game" target="_blank">🕵️ لعبة مافيا</a>
+    <div class="games-grid">
+
+      <div class="game-card">
+        <div class="game-icon">🎨</div>
+        <div class="game-title">Skribbl.io</div>
+        <div class="game-actions">
+          <button onclick="window.open('https://skribbl.io')">▶️ ${text[lang].play}</button>
+          <button class="mic-btn" onclick="speakCustom('Skribbl game')">🎤</button>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-icon">😂</div>
+        <div class="game-title">Gartic Phone</div>
+        <div class="game-actions">
+          <button onclick="window.open('https://garticphone.com')">▶️ ${text[lang].play}</button>
+          <button class="mic-btn" onclick="speakCustom('Gartic Phone game')">🎤</button>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-icon">🧠</div>
+        <div class="game-title">Codenames</div>
+        <div class="game-actions">
+          <button onclick="window.open('https://www.codenames.game')">▶️ ${text[lang].play}</button>
+          <button class="mic-btn" onclick="speakCustom('Codenames game')">🎤</button>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-icon">🕵️</div>
+        <div class="game-title">Mafia</div>
+        <div class="game-actions">
+          <button onclick="window.open('https://www.jm3tmafia.com/game')">▶️ ${text[lang].play}</button>
+          <button class="mic-btn" onclick="speakCustom('Mafia game')">🎤</button>
+        </div>
+      </div>
+
+    </div>
   `;
 
-  window.scrollTo({
-    top: document.getElementById("content").offsetTop,
-    behavior: "smooth"
-  });
+  window.scrollTo({top: content.offsetTop, behavior: "smooth"});
 }
 
 </script>
