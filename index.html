@@ -9,22 +9,23 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial;
-  background: linear-gradient(135deg, #111, #1c1c1c);
-  color: white;
+  font-family: "Georgia", serif;
+  background: linear-gradient(135deg, #3e2723, #1b1b1b);
+  color: #f5e6d3;
   text-align: center;
 }
 
 h1 {
   padding: 20px;
   font-size: 34px;
+  color: #ffcc80;
 }
 
 .lang-btn {
   margin: 10px;
   padding: 10px 20px;
-  border-radius: 10px;
-  background: #ff6600;
+  border-radius: 20px;
+  background: #6d4c41;
   border: none;
   color: white;
   font-size: 16px;
@@ -38,13 +39,19 @@ h1 {
 }
 
 .card {
-  background: #222;
+  background: #4e342e;
   padding: 25px;
   border-radius: 20px;
   font-size: 22px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.03);
 }
 
 .card span {
@@ -57,14 +64,14 @@ h1 {
 }
 
 .big {
-  background: #ff6600;
+  background: #bf360c;
 }
 
 #content {
   padding: 20px;
 }
 
-/* 🔥 تصميم الألعاب */
+/* الألعاب */
 .games-grid {
   display: grid;
   gap: 15px;
@@ -72,15 +79,10 @@ h1 {
 }
 
 .game-card {
-  background: #222;
+  background: #4e342e;
   padding: 20px;
   border-radius: 20px;
   text-align: center;
-  transition: 0.3s;
-}
-
-.game-card:hover {
-  transform: scale(1.03);
 }
 
 .game-icon {
@@ -100,7 +102,7 @@ h1 {
 }
 
 .game-card button {
-  background: #ff6600;
+  background: #bf360c;
   border: none;
   padding: 10px 15px;
   border-radius: 10px;
@@ -109,7 +111,7 @@ h1 {
 }
 
 .mic-btn {
-  background: #444;
+  background: #6d4c41;
 }
 
 img {
@@ -196,12 +198,12 @@ const text = {
 function setLang(l){
   lang = l;
 
-  document.getElementById("menuText").innerText = "📖 " + text[l].menu;
-  document.getElementById("locText").innerText = "📍 " + text[l].location;
-  document.getElementById("videoText").innerText = "🎥 " + text[l].video;
-  document.getElementById("waiterText").innerText = "🚨 " + text[l].waiter;
-  document.getElementById("gamesText").innerText = "🎮 " + text[l].games;
-  document.getElementById("billText").innerText = "💰 " + text[l].bill;
+  menuText.innerText = "📖 " + text[l].menu;
+  locText.innerText = "📍 " + text[l].location;
+  videoText.innerText = "🎥 " + text[l].video;
+  waiterText.innerText = "🚨 " + text[l].waiter;
+  gamesText.innerText = "🎮 " + text[l].games;
+  billText.innerText = "💰 " + text[l].bill;
 }
 
 function speak(type){
@@ -217,7 +219,7 @@ function speakCustom(textToSpeak){
 }
 
 function showMenu(){
-  document.getElementById("content").innerHTML = `
+  content.innerHTML = `
     <h2>${text[lang].menu}</h2>
     <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194629/1_fr367x.jpg">
     <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/9_ljn4uk.jpg">
@@ -233,7 +235,7 @@ function openLocation(){
 }
 
 function showVideo(){
-  document.getElementById("content").innerHTML = `
+  content.innerHTML = `
     <h2>${text[lang].video}</h2>
     <iframe src="https://www.youtube.com/embed/5QG4drW8zdY" allowfullscreen></iframe>
   `;
@@ -251,9 +253,8 @@ function requestBill(){
   window.open("bill.html?table=" + table, "_blank");
 }
 
-/* 🔥 الألعاب الجديدة */
 function showGames(){
-  document.getElementById("content").innerHTML = `
+  content.innerHTML = `
     <h2>${text[lang].games}</h2>
 
     <div class="games-grid">
