@@ -10,27 +10,30 @@
 body{
   margin:0;
   font-family: "Georgia", serif;
-  background:#2c1b16;
+  background:#1a1a1a;
   color:#f5e6d3;
+}
+
+/* هيدر */
+.header{
+  background: linear-gradient(90deg, #3e2723, #5d4037);
+  padding:15px;
   text-align:center;
-}
-
-.container{
-  padding:20px;
-}
-
-.box{
-  background:#4e342e;
-  padding:20px;
-  border-radius:20px;
-  max-width:400px;
-  margin:auto;
-}
-
-h1{
+  font-size:24px;
   color:#ffcc80;
 }
 
+/* الصندوق */
+.box{
+  background:#3e2723;
+  padding:20px;
+  border-radius:20px;
+  max-width:400px;
+  margin:30px auto;
+  box-shadow:0 8px 20px rgba(0,0,0,0.6);
+}
+
+/* عناصر الفاتورة */
 .item{
   display:flex;
   justify-content:space-between;
@@ -38,18 +41,18 @@ h1{
 }
 
 .total{
-  margin-top:15px;
-  font-size:20px;
-  border-top:1px solid #aaa;
+  margin-top:10px;
   padding-top:10px;
+  border-top:1px solid #aaa;
+  font-size:18px;
 }
 
+/* أزرار */
 button{
-  margin:10px;
-  padding:12px 20px;
+  margin:8px;
+  padding:10px 15px;
   border:none;
   border-radius:10px;
-  font-size:16px;
   cursor:pointer;
 }
 
@@ -62,10 +65,9 @@ button{
 
 <body>
 
-<div class="container">
-<div class="box">
+<div class="header">🧾 فاتورة</div>
 
-<h1>🧾 فاتورة</h1>
+<div class="box">
 
 <p id="table"></p>
 
@@ -83,15 +85,16 @@ button{
 <button class="download" onclick="downloadBill()">📥 تحميل الفاتورة</button>
 
 </div>
-</div>
 
 <script>
 
+// رقم الطاولة
 const urlParams = new URLSearchParams(window.location.search);
 const table = urlParams.get("table") || 1;
 
 document.getElementById("table").innerText = "رقم الطاولة: " + table;
 
+// بيانات تجريبية
 const bills = {
   1: [
     {name:"🍔 برجر", price:5},
@@ -100,6 +103,10 @@ const bills = {
   5: [
     {name:"🍕 بيتزا", price:8},
     {name:"🥤 عصير", price:3}
+  ],
+  7: [
+    {name:"🍝 باستا", price:6},
+    {name:"☕ قهوة", price:2}
   ]
 };
 
@@ -119,10 +126,12 @@ items.forEach(item=>{
 
 document.getElementById("total").innerText = "المجموع: " + total + " JD";
 
+// إظهار الدفع
 function showPayment(){
   document.getElementById("paymentOptions").style.display = "block";
 }
 
+// نفس سكربتك (ما لمسته)
 const baseURL = "https://script.google.com/macros/s/AKfycbwoDcztWW5XV8zeyniCKI97adi1w8uPVzCZ_TohYwLq1Hc7jSq_gkO9Y-R925fM62iU/exec";
 const key = "012305";
 
@@ -136,6 +145,7 @@ function payCard(){
     .then(()=>alert("تم طلب الدفع فيزا"));
 }
 
+// تحميل
 function downloadBill(){
   window.print();
 }
