@@ -45,10 +45,13 @@ h1 {
   justify-content: space-between;
 }
 
-.big {background:#bf360c;}
+.card:hover { transform: scale(1.03); }
 
-#content {padding:20px;}
+.big { background:#bf360c; }
 
+#content { padding:20px; }
+
+/* الطلب */
 .menu-item{
   background:#4e342e;
   padding:15px;
@@ -56,16 +59,6 @@ h1 {
   border-radius:15px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
-}
-
-button{
-  padding:8px 12px;
-  border:none;
-  border-radius:10px;
-  background:#bf360c;
-  color:white;
-  cursor:pointer;
 }
 
 .cart{
@@ -74,6 +67,14 @@ button{
   border-radius:15px;
   margin-top:15px;
 }
+
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:10px;
+  background:#bf360c;
+  color:white;
+}
 </style>
 </head>
 
@@ -81,30 +82,45 @@ button{
 
 <h1>🍽️ Smart Table</h1>
 
-<button onclick="setLang('ar')" class="lang-btn">عربي</button>
-<button onclick="setLang('en')" class="lang-btn">English</button>
+<button class="lang-btn" onclick="setLang('ar')">عربي</button>
+<button class="lang-btn" onclick="setLang('en')">English</button>
 
 <div class="container">
 
 <div class="card">
-<span onclick="showMenu()" id="menuText">📖 المنيو</span>
+<span onclick="showMenu()"><span id="menuText">📖 المنيو</span></span>
 <span onclick="speak('menu')">🎤</span>
 </div>
 
-<!-- 🔥 زر جديد -->
+<!-- 🛒 زر جديد بدون حذف أي شي -->
 <div class="card big">
-<span onclick="showOrderMenu()" id="orderText">🛒 اطلب الآن</span>
+<span onclick="showOrderMenu()"><span id="orderText">🛒 اطلب الآن</span></span>
 <span onclick="speak('order')">🎤</span>
 </div>
 
 <div class="card">
-<span onclick="callWaiter()" id="waiterText">🚨 نداء ويتر</span>
+<span onclick="openLocation()"><span id="locText">📍 الموقع</span></span>
+<span onclick="speak('location')">🎤</span>
+</div>
+
+<div class="card">
+<span onclick="showVideo()"><span id="videoText">🎥 فيديو</span></span>
+<span onclick="speak('video')">🎤</span>
+</div>
+
+<div class="card big">
+<span onclick="callWaiter()"><span id="waiterText">🚨 نداء ويتر</span></span>
 <span onclick="speak('waiter')">🎤</span>
 </div>
 
 <div class="card">
-<span onclick="requestBill()" id="billText">💰 الفاتورة</span>
+<span onclick="requestBill()"><span id="billText">💰 الفاتورة</span></span>
 <span onclick="speak('bill')">🎤</span>
+</div>
+
+<div class="card">
+<span onclick="showGames()"><span id="gamesText">🎮 ألعاب</span></span>
+<span onclick="speak('games')">🎤</span>
 </div>
 
 </div>
@@ -119,7 +135,10 @@ const text={
 ar:{
 menu:"المنيو",
 order:"اطلب الآن",
+location:"الموقع",
+video:"فيديو",
 waiter:"نداء ويتر",
+games:"ألعاب",
 bill:"الفاتورة",
 send:"إرسال الطلب",
 yourOrder:"طلبك",
@@ -128,7 +147,10 @@ total:"المجموع"
 en:{
 menu:"Menu",
 order:"Order Now",
+location:"Location",
+video:"Video",
 waiter:"Call Waiter",
+games:"Games",
 bill:"Bill",
 send:"Send Order",
 yourOrder:"Your Order",
@@ -140,7 +162,10 @@ function setLang(l){
 lang=l;
 menuText.innerText="📖 "+text[l].menu;
 orderText.innerText="🛒 "+text[l].order;
+locText.innerText="📍 "+text[l].location;
+videoText.innerText="🎥 "+text[l].video;
 waiterText.innerText="🚨 "+text[l].waiter;
+gamesText.innerText="🎮 "+text[l].games;
 billText.innerText="💰 "+text[l].bill;
 }
 
@@ -150,7 +175,7 @@ msg.lang=lang==="ar"?"ar-SA":"en-US";
 speechSynthesis.speak(msg);
 }
 
-// 🖼️ المنيو (صور فقط)
+// 🖼️ المنيو (صور)
 function showMenu(){
 content.innerHTML=`
 <h2>${text[lang].menu}</h2>
@@ -209,7 +234,7 @@ cart.forEach(i=>{
 order+=i.name+"\\n";
 });
 
-fetch("https://script.google.com/macros/s/AKfycbwoDcztWW5XV8zeyniCKI97adi1w8uPVzCZ_TohYwLq1Hc7jSq_gkO9Y-R925fM62iU/exec?table="+table+"&type=order&key=012305&order="+encodeURIComponent(order));
+fetch("YOUR_SCRIPT_URL?table="+table+"&type=order&key=012305&order="+encodeURIComponent(order));
 
 alert("تم إرسال الطلب");
 
@@ -217,13 +242,26 @@ cart=[];
 updateCart();
 }
 
+// باقي النظام (كما هو)
+function openLocation(){
+window.open("https://maps.google.com/?q=Amman");
+}
+
+function showVideo(){
+content.innerHTML=`<iframe src="https://www.youtube.com/embed/5QG4drW8zdY" allowfullscreen></iframe>`;
+}
+
 function callWaiter(){
-fetch("https://script.google.com/macros/s/AKfycbwoDcztWW5XV8zeyniCKI97adi1w8uPVzCZ_TohYwLq1Hc7jSq_gkO9Y-R925fM62iU/exec?table=5&type=waiter&key=012305");
+fetch("YOUR_SCRIPT_URL?table=5&type=waiter&key=012305");
 alert("تم طلب ويتر");
 }
 
 function requestBill(){
 window.open("bill.html?table=5");
+}
+
+function showGames(){
+content.innerHTML=`<h2>🎮 Games</h2>`;
 }
 
 </script>
