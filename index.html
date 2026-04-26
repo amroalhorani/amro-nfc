@@ -28,12 +28,10 @@ h1 {
   background: #6d4c41;
   border: none;
   color: white;
-  font-size: 16px;
 }
 
 .container {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 15px;
   padding: 20px;
 }
@@ -45,84 +43,36 @@ h1 {
   font-size: 22px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-  transition: 0.3s;
 }
 
-.card:hover {
-  transform: scale(1.03);
+.big {background:#bf360c;}
+
+#content {padding:20px;}
+
+.menu-item{
+  background:#4e342e;
+  padding:15px;
+  margin:10px;
+  border-radius:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.card span {
-  cursor: pointer;
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:10px;
+  background:#bf360c;
+  color:white;
+  cursor:pointer;
 }
 
-.mic {
-  font-size: 22px;
-  cursor: pointer;
-}
-
-.big {
-  background: #bf360c;
-}
-
-#content {
-  padding: 20px;
-}
-
-/* الألعاب */
-.games-grid {
-  display: grid;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.game-card {
-  background: #4e342e;
-  padding: 20px;
-  border-radius: 20px;
-  text-align: center;
-}
-
-.game-icon {
-  font-size: 40px;
-  margin-bottom: 10px;
-}
-
-.game-title {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.game-actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.game-card button {
-  background: #bf360c;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
-}
-
-.mic-btn {
-  background: #6d4c41;
-}
-
-img {
-  width: 95%;
-  margin: 10px;
-  border-radius: 10px;
-}
-
-iframe {
-  width: 95%;
-  height: 220px;
+.cart{
+  background:#2e1c18;
+  padding:15px;
+  border-radius:15px;
+  margin-top:15px;
 }
 </style>
 </head>
@@ -131,39 +81,30 @@ iframe {
 
 <h1>🍽️ Smart Table</h1>
 
-<button class="lang-btn" onclick="setLang('ar')">عربي</button>
-<button class="lang-btn" onclick="setLang('en')">English</button>
+<button onclick="setLang('ar')" class="lang-btn">عربي</button>
+<button onclick="setLang('en')" class="lang-btn">English</button>
 
 <div class="container">
 
 <div class="card">
-<span onclick="showMenu()"><span id="menuText">📖 المنيو</span></span>
-<span class="mic" onclick="speak('menu')">🎤</span>
+<span onclick="showMenu()" id="menuText">📖 المنيو</span>
+<span onclick="speak('menu')">🎤</span>
 </div>
 
-<div class="card">
-<span onclick="openLocation()"><span id="locText">📍 الموقع</span></span>
-<span class="mic" onclick="speak('location')">🎤</span>
-</div>
-
-<div class="card">
-<span onclick="showVideo()"><span id="videoText">🎥 فيديو</span></span>
-<span class="mic" onclick="speak('video')">🎤</span>
-</div>
-
+<!-- 🔥 زر جديد -->
 <div class="card big">
-<span onclick="callWaiter()"><span id="waiterText">🚨 نداء ويتر</span></span>
-<span class="mic" onclick="speak('waiter')">🎤</span>
+<span onclick="showOrderMenu()" id="orderText">🛒 اطلب الآن</span>
+<span onclick="speak('order')">🎤</span>
 </div>
 
 <div class="card">
-<span onclick="requestBill()"><span id="billText">💰 الفاتورة</span></span>
-<span class="mic" onclick="speak('bill')">🎤</span>
+<span onclick="callWaiter()" id="waiterText">🚨 نداء ويتر</span>
+<span onclick="speak('waiter')">🎤</span>
 </div>
 
 <div class="card">
-<span onclick="showGames()"><span id="gamesText">🎮 ألعاب</span></span>
-<span class="mic" onclick="speak('games')">🎤</span>
+<span onclick="requestBill()" id="billText">💰 الفاتورة</span>
+<span onclick="speak('bill')">🎤</span>
 </div>
 
 </div>
@@ -172,133 +113,117 @@ iframe {
 
 <script>
 
-let lang = "ar";
+let lang="ar";
 
-const text = {
-  ar: {
-    menu: "المنيو",
-    location: "الموقع",
-    video: "فيديو",
-    waiter: "نداء ويتر",
-    games: "ألعاب",
-    bill: "الفاتورة",
-    play: "العب الآن"
-  },
-  en: {
-    menu: "Menu",
-    location: "Location",
-    video: "Video",
-    waiter: "Call Waiter",
-    games: "Games",
-    bill: "Bill",
-    play: "Play Now"
-  }
+const text={
+ar:{
+menu:"المنيو",
+order:"اطلب الآن",
+waiter:"نداء ويتر",
+bill:"الفاتورة",
+send:"إرسال الطلب",
+yourOrder:"طلبك",
+total:"المجموع"
+},
+en:{
+menu:"Menu",
+order:"Order Now",
+waiter:"Call Waiter",
+bill:"Bill",
+send:"Send Order",
+yourOrder:"Your Order",
+total:"Total"
+}
 };
 
 function setLang(l){
-  lang = l;
-
-  menuText.innerText = "📖 " + text[l].menu;
-  locText.innerText = "📍 " + text[l].location;
-  videoText.innerText = "🎥 " + text[l].video;
-  waiterText.innerText = "🚨 " + text[l].waiter;
-  gamesText.innerText = "🎮 " + text[l].games;
-  billText.innerText = "💰 " + text[l].bill;
+lang=l;
+menuText.innerText="📖 "+text[l].menu;
+orderText.innerText="🛒 "+text[l].order;
+waiterText.innerText="🚨 "+text[l].waiter;
+billText.innerText="💰 "+text[l].bill;
 }
 
 function speak(type){
-  const msg = new SpeechSynthesisUtterance(text[lang][type]);
-  msg.lang = lang === "ar" ? "ar-SA" : "en-US";
-  speechSynthesis.speak(msg);
+const msg=new SpeechSynthesisUtterance(text[lang][type]);
+msg.lang=lang==="ar"?"ar-SA":"en-US";
+speechSynthesis.speak(msg);
 }
 
-function speakCustom(textToSpeak){
-  const msg = new SpeechSynthesisUtterance(textToSpeak);
-  msg.lang = lang === "ar" ? "ar-SA" : "en-US";
-  speechSynthesis.speak(msg);
-}
-
+// 🖼️ المنيو (صور فقط)
 function showMenu(){
-  content.innerHTML = `
-    <h2>${text[lang].menu}</h2>
-    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194629/1_fr367x.jpg">
-    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/9_ljn4uk.jpg">
-    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/4_joqmep.jpg">
-    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/5_azsne8.jpg">
-    <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/6_fv3i5l.jpg">
-  `;
-  window.scrollTo({top: content.offsetTop, behavior: "smooth"});
+content.innerHTML=`
+<h2>${text[lang].menu}</h2>
+
+<img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194629/1_fr367x.jpg">
+<img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/9_ljn4uk.jpg">
+<img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/4_joqmep.jpg">
+<img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/5_azsne8.jpg">
+<img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/6_fv3i5l.jpg">
+`;
 }
 
-function openLocation(){
-  window.open("https://maps.google.com/?q=Amman", "_blank");
+// 🛒 الطلب
+let cart=[];
+
+function showOrderMenu(){
+content.innerHTML=`
+<h2>${text[lang].order}</h2>
+
+<div class="menu-item">🍔 برجر 5 JD <button onclick="add('🍔 برجر',5)">+</button></div>
+<div class="menu-item">🍕 بيتزا 8 JD <button onclick="add('🍕 بيتزا',8)">+</button></div>
+<div class="menu-item">🥤 عصير 3 JD <button onclick="add('🥤 عصير',3)">+</button></div>
+
+<div class="cart" id="cart"></div>
+
+<button onclick="sendOrder()">${text[lang].send}</button>
+`;
+
+updateCart();
 }
 
-function showVideo(){
-  content.innerHTML = `
-    <h2>${text[lang].video}</h2>
-    <iframe src="https://www.youtube.com/embed/5QG4drW8zdY" allowfullscreen></iframe>
-  `;
-  window.scrollTo({top: content.offsetTop, behavior: "smooth"});
+function add(name,price){
+cart.push({name,price});
+updateCart();
+}
+
+function updateCart(){
+let total=0;
+let html="<h3>"+text[lang].yourOrder+"</h3>";
+
+cart.forEach(i=>{
+html+=i.name+"<br>";
+total+=i.price;
+});
+
+html+=`<hr>${text[lang].total}: ${total} JD`;
+
+document.getElementById("cart").innerHTML=html;
+}
+
+function sendOrder(){
+const table=5;
+
+let order="";
+cart.forEach(i=>{
+order+=i.name+"\\n";
+});
+
+fetch("https://script.google.com/macros/s/AKfycbwoDcztWW5XV8zeyniCKI97adi1w8uPVzCZ_TohYwLq1Hc7jSq_gkO9Y-R925fM62iU/exec?table="+table+"&type=order&key=012305&order="+encodeURIComponent(order));
+
+alert("تم إرسال الطلب");
+
+cart=[];
+updateCart();
 }
 
 function callWaiter(){
-  const table = 5;
-  fetch("https://script.google.com/macros/s/AKfycbwoDcztWW5XV8zeyniCKI97adi1w8uPVzCZ_TohYwLq1Hc7jSq_gkO9Y-R925fM62iU/exec?table=" + table + "&type=waiter&key=012305");
-  alert("تم طلب الويتر للطاولة " + table);
+fetch("https://script.google.com/macros/s/AKfycbwoDcztWW5XV8zeyniCKI97adi1w8uPVzCZ_TohYwLq1Hc7jSq_gkO9Y-R925fM62iU/exec?table=5&type=waiter&key=012305");
+alert("تم طلب ويتر");
 }
 
 function requestBill(){
-  const table = 5;
-  window.open("bill.html?table=" + table, "_blank");
-}
-
-function showGames(){
-  content.innerHTML = `
-    <h2>${text[lang].games}</h2>
-
-    <div class="games-grid">
-
-      <div class="game-card">
-        <div class="game-icon">🎨</div>
-        <div class="game-title">Skribbl.io</div>
-        <div class="game-actions">
-          <button onclick="window.open('https://skribbl.io')">▶️ ${text[lang].play}</button>
-          <button class="mic-btn" onclick="speakCustom('Skribbl game')">🎤</button>
-        </div>
-      </div>
-
-      <div class="game-card">
-        <div class="game-icon">😂</div>
-        <div class="game-title">Gartic Phone</div>
-        <div class="game-actions">
-          <button onclick="window.open('https://garticphone.com')">▶️ ${text[lang].play}</button>
-          <button class="mic-btn" onclick="speakCustom('Gartic Phone game')">🎤</button>
-        </div>
-      </div>
-
-      <div class="game-card">
-        <div class="game-icon">🧠</div>
-        <div class="game-title">Codenames</div>
-        <div class="game-actions">
-          <button onclick="window.open('https://www.codenames.game')">▶️ ${text[lang].play}</button>
-          <button class="mic-btn" onclick="speakCustom('Codenames game')">🎤</button>
-        </div>
-      </div>
-
-      <div class="game-card">
-        <div class="game-icon">🕵️</div>
-        <div class="game-title">Mafia</div>
-        <div class="game-actions">
-          <button onclick="window.open('https://www.jm3tmafia.com/game')">▶️ ${text[lang].play}</button>
-          <button class="mic-btn" onclick="speakCustom('Mafia game')">🎤</button>
-        </div>
-      </div>
-
-    </div>
-  `;
-
-  window.scrollTo({top: content.offsetTop, behavior: "smooth"});
+window.open("bill.html?table=5");
 }
 
 </script>
