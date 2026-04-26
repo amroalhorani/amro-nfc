@@ -234,7 +234,7 @@ cart.forEach(i=>{
 order+=i.name+"\\n";
 });
 
-fetch("YOUR_SCRIPT_URL?table="+table+"&type=order&key=012305&order="+encodeURIComponent(order));
+fetch("https://script.google.com/macros/s/AKfycbx-SGkGeTKEEnPbPtqpy84TLhd_oKnJ5BKrJaaIhOUTNZL3CbIj0to2A8xevROtVJPk/exec?table="+table+"&type=order&key=012305&order="+encodeURIComponent(order));
 
 alert("تم إرسال الطلب");
 
@@ -252,7 +252,7 @@ content.innerHTML=`<iframe src="https://www.youtube.com/embed/5QG4drW8zdY" allow
 }
 
 function callWaiter(){
-fetch("YOUR_SCRIPT_URL?table=5&type=waiter&key=012305");
+fetch("https://script.google.com/macros/s/AKfycbx-SGkGeTKEEnPbPtqpy84TLhd_oKnJ5BKrJaaIhOUTNZL3CbIj0to2A8xevROtVJPk/exec?table=5&type=waiter&key=012305");
 alert("تم طلب ويتر");
 }
 
