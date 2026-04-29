@@ -51,7 +51,6 @@ h1 {
 
 #content { padding:20px; }
 
-/* ✅ تصغير صور المنيو */
 img {
   width: 85%;
   margin: 10px;
@@ -82,6 +81,49 @@ button{
   background:#bf360c;
   color:white;
 }
+
+/* 🎮 الألعاب */
+.games-grid {
+  display: grid;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.game-card {
+  background: #4e342e;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.game-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.game-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.game-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.game-card button {
+  background: #bf360c;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.mic-btn {
+  background: #6d4c41;
+}
 </style>
 </head>
 
@@ -99,7 +141,6 @@ button{
 <span onclick="speak('menu')">🎤</span>
 </div>
 
-<!-- 🛒 زر الطلب -->
 <div class="card big">
 <span onclick="showOrderMenu()"><span id="orderText">🛒 اطلب الآن من مكانك</span></span>
 <span onclick="speak('order')">🎤</span>
@@ -149,7 +190,8 @@ games:"ألعاب",
 bill:"الفاتورة",
 send:"إرسال الطلب",
 yourOrder:"طلبك",
-total:"المجموع"
+total:"المجموع",
+play:"العب الآن"
 },
 en:{
 menu:"Menu",
@@ -161,7 +203,8 @@ games:"Games",
 bill:"Bill",
 send:"Send Order",
 yourOrder:"Your Order",
-total:"Total"
+total:"Total",
+play:"Play Now"
 }
 };
 
@@ -182,22 +225,31 @@ msg.lang=lang==="ar"?"ar-SA":"en-US";
 speechSynthesis.speak(msg);
 }
 
-// ✅ المنيو
+function speakCustom(textToSpeak){
+const msg=new SpeechSynthesisUtterance(textToSpeak);
+msg.lang=lang==="ar"?"ar-SA":"en-US";
+speechSynthesis.speak(msg);
+}
+
+function scrollDown(){
+window.scrollTo({
+top: document.getElementById("content").offsetTop,
+behavior: "smooth"
+});
+}
+
 function showMenu(){
 content.innerHTML=`
 <h2>${text[lang].menu}</h2>
-
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194629/1_fr367x.jpg">
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/9_ljn4uk.jpg">
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/4_joqmep.jpg">
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/5_azsne8.jpg">
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/6_fv3i5l.jpg">
 `;
-
 scrollDown();
 }
 
-// 🛒 الطلب
 let cart=[];
 
 function showOrderMenu(){
@@ -252,7 +304,6 @@ cart=[];
 updateCart();
 }
 
-// باقي النظام
 function openLocation(){
 window.open("https://maps.google.com/?q=Amman");
 }
@@ -271,26 +322,52 @@ function requestBill(){
 window.open("bill.html?table=5");
 }
 
-// ✅ الألعاب رجعت
 function showGames(){
 content.innerHTML=`
 <h2>${text[lang].games}</h2>
 
-<a href="https://skribbl.io" target="_blank">🎨 لعبة رسم</a>
-<a href="https://garticphone.com" target="_blank">😂 لعبة جماعية</a>
-<a href="https://www.codenames.game" target="_blank">🧠 لعبة ذكاء</a>
-<a href="https://www.jm3tmafia.com/game" target="_blank">🕵️ لعبة مافيا</a>
+<div class="games-grid">
+
+<div class="game-card">
+<div class="game-icon">🎨</div>
+<div class="game-title">Skribbl.io</div>
+<div class="game-actions">
+<button onclick="window.open('https://skribbl.io')">▶️ ${text[lang].play}</button>
+<button class="mic-btn" onclick="speakCustom('${lang==="ar"?"لعبة رسم":"Drawing game"}')">🎤</button>
+</div>
+</div>
+
+<div class="game-card">
+<div class="game-icon">😂</div>
+<div class="game-title">Gartic Phone</div>
+<div class="game-actions">
+<button onclick="window.open('https://garticphone.com')">▶️ ${text[lang].play}</button>
+<button class="mic-btn" onclick="speakCustom('${lang==="ar"?"لعبة جماعية":"Party game"}')">🎤</button>
+</div>
+</div>
+
+<div class="game-card">
+<div class="game-icon">🧠</div>
+<div class="game-title">Codenames</div>
+<div class="game-actions">
+<button onclick="window.open('https://www.codenames.game')">▶️ ${text[lang].play}</button>
+<button class="mic-btn" onclick="speakCustom('${lang==="ar"?"لعبة ذكاء":"Brain game"}')">🎤</button>
+</div>
+</div>
+
+<div class="game-card">
+<div class="game-icon">🕵️</div>
+<div class="game-title">Mafia</div>
+<div class="game-actions">
+<button onclick="window.open('https://www.jm3tmafia.com/game')">▶️ ${text[lang].play}</button>
+<button class="mic-btn" onclick="speakCustom('${lang==="ar"?"لعبة مافيا":"Mafia game"}')">🎤</button>
+</div>
+</div>
+
+</div>
 `;
 
 scrollDown();
-}
-
-// ✅ سكروول
-function scrollDown(){
-  window.scrollTo({
-    top: document.getElementById("content").offsetTop,
-    behavior: "smooth"
-  });
 }
 
 </script>
