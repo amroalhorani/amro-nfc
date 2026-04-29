@@ -51,6 +51,13 @@ h1 {
 
 #content { padding:20px; }
 
+/* ✅ تصغير صور المنيو */
+img {
+  width: 85%;
+  margin: 10px;
+  border-radius: 10px;
+}
+
 /* الطلب */
 .menu-item{
   background:#4e342e;
@@ -92,9 +99,9 @@ button{
 <span onclick="speak('menu')">🎤</span>
 </div>
 
-<!-- 🛒 زر جديد بدون حذف أي شي -->
+<!-- 🛒 زر الطلب -->
 <div class="card big">
-<span onclick="showOrderMenu()"><span id="orderText">🛒 اطلب الآن</span></span>
+<span onclick="showOrderMenu()"><span id="orderText">🛒 اطلب الآن من مكانك</span></span>
 <span onclick="speak('order')">🎤</span>
 </div>
 
@@ -134,7 +141,7 @@ let lang="ar";
 const text={
 ar:{
 menu:"المنيو",
-order:"اطلب الآن",
+order:"اطلب الآن من مكانك",
 location:"الموقع",
 video:"فيديو",
 waiter:"نداء ويتر",
@@ -146,7 +153,7 @@ total:"المجموع"
 },
 en:{
 menu:"Menu",
-order:"Order Now",
+order:"Order From Your Seat",
 location:"Location",
 video:"Video",
 waiter:"Call Waiter",
@@ -175,7 +182,7 @@ msg.lang=lang==="ar"?"ar-SA":"en-US";
 speechSynthesis.speak(msg);
 }
 
-// 🖼️ المنيو (صور)
+// ✅ المنيو
 function showMenu(){
 content.innerHTML=`
 <h2>${text[lang].menu}</h2>
@@ -186,6 +193,8 @@ content.innerHTML=`
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/5_azsne8.jpg">
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/6_fv3i5l.jpg">
 `;
+
+scrollDown();
 }
 
 // 🛒 الطلب
@@ -205,6 +214,7 @@ content.innerHTML=`
 `;
 
 updateCart();
+scrollDown();
 }
 
 function add(name,price){
@@ -242,13 +252,14 @@ cart=[];
 updateCart();
 }
 
-// باقي النظام (كما هو)
+// باقي النظام
 function openLocation(){
 window.open("https://maps.google.com/?q=Amman");
 }
 
 function showVideo(){
 content.innerHTML=`<iframe src="https://www.youtube.com/embed/5QG4drW8zdY" allowfullscreen></iframe>`;
+scrollDown();
 }
 
 function callWaiter(){
@@ -260,8 +271,26 @@ function requestBill(){
 window.open("bill.html?table=5");
 }
 
+// ✅ الألعاب رجعت
 function showGames(){
-content.innerHTML=`<h2>🎮 Games</h2>`;
+content.innerHTML=`
+<h2>${text[lang].games}</h2>
+
+<a href="https://skribbl.io" target="_blank">🎨 لعبة رسم</a>
+<a href="https://garticphone.com" target="_blank">😂 لعبة جماعية</a>
+<a href="https://www.codenames.game" target="_blank">🧠 لعبة ذكاء</a>
+<a href="https://www.jm3tmafia.com/game" target="_blank">🕵️ لعبة مافيا</a>
+`;
+
+scrollDown();
+}
+
+// ✅ سكروول
+function scrollDown(){
+  window.scrollTo({
+    top: document.getElementById("content").offsetTop,
+    behavior: "smooth"
+  });
 }
 
 </script>
