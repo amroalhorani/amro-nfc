@@ -92,39 +92,57 @@ const table = urlParams.get("table") || 1;
 
 document.getElementById("table").innerText = "رقم الطاولة: " + table;
 
-const bills = {
-  1: [
-    {name:"🍔 برجر", price:5},
-    {name:"🥤 كولا", price:2}
-  ],
-  5: [
-    {name:"🍕 بيتزا", price:8},
-    {name:"🥤 عصير", price:3}
-  ]
-};
+// 🔥 رابط السكربت
+const baseURL = "https://script.google.com/macros/s/AKfycbyN4JyFcgLtc3EpbINpP3S3uM53zENmlZI8DsvKLKAwpSup4J5C6PWEsXOHNunfdpZW/exec";
+const key = "012305";
 
-const items = bills[table] || [{name:"🍔 برجر", price:5}];
+// =======================
+// 🧾 LIVE ORDERS SYSTEM
+// =======================
 
-let total = 0;
+function loadOrders() {
 
-items.forEach(item=>{
-  document.getElementById("items").innerHTML += `
-    <div class="item">
-      <span>${item.name}</span>
-      <span>${item.price} JD</span>
-    </div>
-  `;
-  total += item.price;
-});
+  fetch(baseURL + "?table=" + table + "&type=getOrders&key=" + key)
+    .then(res => res.json())
+    .then(data => {
 
-document.getElementById("total").innerText = "المجموع: " + total + " JD";
+      let html = "";
+      let total = 0;
+
+      data.forEach(item => {
+
+        html += `
+          <div class="item">
+            <span>${item.item}</span>
+            <span>${item.price} JD</span>
+          </div>
+        `;
+
+        total += Number(item.price);
+      });
+
+      document.getElementById("items").innerHTML = html;
+      document.getElementById("total").innerText = "المجموع: " + total + " JD";
+
+    })
+    .catch(err => {
+      console.log("Error loading orders", err);
+    });
+}
+
+// أول تحميل
+loadOrders();
+
+// تحديث تلقائي كل 3 ثواني
+setInterval(loadOrders, 3000);
+
+// =======================
+// 💰 الدفع
+// =======================
 
 function showPayment(){
   document.getElementById("paymentOptions").style.display = "block";
 }
-
-const baseURL = "https://script.google.com/macros/s/AKfycbyN4JyFcgLtc3EpbINpP3S3uM53zENmlZI8DsvKLKAwpSup4J5C6PWEsXOHNunfdpZW/exec";
-const key = "012305";
 
 function payCash(){
   fetch(baseURL + "?table=" + table + "&type=cash&key=" + key)
@@ -135,6 +153,10 @@ function payCard(){
   fetch(baseURL + "?table=" + table + "&type=card&key=" + key)
     .then(()=>alert("تم طلب الدفع فيزا"));
 }
+
+// =======================
+// 📥 طباعة
+// =======================
 
 function downloadBill(){
   window.print();
