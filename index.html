@@ -294,7 +294,7 @@ const table=5;
 // ✅ نحول السلة إلى JSON
 const orderData = JSON.stringify(cart);
 
-fetch("https://script.google.com/macros/s/AKfycbyN4JyFcgLtc3EpbINpP3S3uM53zENmlZI8DsvKLKAwpSup4J5C6PWEsXOHNunfdpZW/exec?table="+table+"&type=order&key=012305&order="+encodeURIComponent(orderData));
+fetch("https://script.google.com/macros/s/AKfycbxXNzYHMKmFysM3qiMIEkW18YIEE4u284hytXobU4zH8ER4m2XwICSqlPMaieX1yTtm/exec?table="+table+"&type=order&key=012305&order="+encodeURIComponent(orderData));
 
 alert("تم إرسال الطلب");
 
@@ -312,7 +312,7 @@ scrollDown();
 }
 
 function callWaiter(){
-fetch("https://script.google.com/macros/s/AKfycbyN4JyFcgLtc3EpbINpP3S3uM53zENmlZI8DsvKLKAwpSup4J5C6PWEsXOHNunfdpZW/exec?table=5&type=waiter&key=012305");
+fetch("https://script.google.com/macros/s/AKfycbxXNzYHMKmFysM3qiMIEkW18YIEE4u284hytXobU4zH8ER4m2XwICSqlPMaieX1yTtm/exec?table=5&type=waiter&key=012305");
 alert("تم طلب ويتر");
 }
 
