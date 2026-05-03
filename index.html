@@ -289,17 +289,18 @@ document.getElementById("cart").innerHTML=html;
 }
 
 function sendOrder(){
-const table=5;
+  const table = 5;
 
-// ✅ نحول السلة إلى JSON
-const orderData = JSON.stringify(cart);
+  let order = JSON.stringify(cart); // ✅ هون الصح
 
-fetch("https://script.google.com/macros/s/AKfycbxXNzYHMKmFysM3qiMIEkW18YIEE4u284hytXobU4zH8ER4m2XwICSqlPMaieX1yTtm/exec?table="+table+"&type=order&key=012305&order="+encodeURIComponent(orderData));
+  fetch("https://script.google.com/macros/s/AKfycbxXNzYHMKmFysM3qiMIEkW18YIEE4u284hytXobU4zH8ER4m2XwICSqlPMaieX1yTtm/exec?table=" 
+  + table + 
+  "&type=order&key=012305&order=" + encodeURIComponent(order));
 
-alert("تم إرسال الطلب");
+  alert("تم إرسال الطلب");
 
-cart=[];
-updateCart();
+  cart = [];
+  updateCart();
 }
   
 function openLocation(){
