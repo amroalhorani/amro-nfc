@@ -291,16 +291,27 @@ document.getElementById("cart").innerHTML=html;
 function sendOrder(){
   const table = 5;
 
-  let order = JSON.stringify(cart); // ✅ هون الصح
+  if(cart.length === 0){
+    alert("السلة فاضية");
+    return;
+  }
 
-  fetch("https://script.google.com/macros/s/AKfycbxXNzYHMKmFysM3qiMIEkW18YIEE4u284hytXobU4zH8ER4m2XwICSqlPMaieX1yTtm/exec?table=" 
-  + table + 
-  "&type=order&key=012305&order=" + encodeURIComponent(order));
+  let order = JSON.stringify(cart);
 
-  alert("تم إرسال الطلب");
-
-  cart = [];
-  updateCart();
+  fetch("https://script.google.com/macros/s/AKfycbxXNzYHMKmFysM3qiMIEkW18YIEE4u284hytXobU4zH8ER4m2XwICSqlPMaieX1yTtm/exec?table="
+  + table +
+  "&type=order&key=012305&order=" + encodeURIComponent(order))
+  .then(res => res.text())
+  .then(data => {
+    console.log(data);
+    alert("تم إرسال الطلب");
+    cart = [];
+    updateCart();
+  })
+  .catch(err => {
+    console.log(err);
+    alert("فشل الإرسال");
+  });
 }
   
 function openLocation(){
