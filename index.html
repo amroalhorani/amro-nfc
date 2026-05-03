@@ -289,20 +289,17 @@ document.getElementById("cart").innerHTML=html;
 }
 
 function sendOrder(){
-  const table = 5;
+const table=5;
 
-  // 🔥 هون التعديل المهم
-  const orderData = JSON.stringify(cart);
+// ✅ نحول السلة إلى JSON
+const orderData = JSON.stringify(cart);
 
-  fetch("https://script.google.com/macros/s/AKfycbyN4JyFcgLtc3EpbINpP3S3uM53zENmlZI8DsvKLKAwpSup4J5C6PWEsXOHNunfdpZW/exec?table="
-    + table +
-    "&type=order&key=012305&order=" + encodeURIComponent(orderData)
-  );
+fetch("https://script.google.com/macros/s/AKfycbyN4JyFcgLtc3EpbINpP3S3uM53zENmlZI8DsvKLKAwpSup4J5C6PWEsXOHNunfdpZW/exec?table="+table+"&type=order&key=012305&order="+encodeURIComponent(orderData));
 
-  alert("تم إرسال الطلب");
+alert("تم إرسال الطلب");
 
-  cart = [];
-  updateCart();
+cart=[];
+updateCart();
 }
   
 function openLocation(){
