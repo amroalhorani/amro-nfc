@@ -298,7 +298,7 @@ function sendOrder(){
 
   let order = JSON.stringify(cart);
 
-  fetch("https://script.google.com/macros/s/AKfycbzlddszR7Ek562WfJrBrfRlyk5NL2NPJmdh0ZzLk3CqKObp-kY29DnazD5I_Dsv1diP/exec?table="
+  fetch("https://script.google.com/macros/s/AKfycbyd-e13b-sgUsMYoYFSd_uGAqym-S1F2TxEkHjqxSeZgUdLaq4K9yuCsbPnvlzgVWhK/exec?table="
   + table +
   "&type=order&key=012305&order=" + encodeURIComponent(order))
   .then(res => res.text())
@@ -324,7 +324,7 @@ scrollDown();
 }
 
 function callWaiter(){
-fetch("https://script.google.com/macros/s/AKfycbzlddszR7Ek562WfJrBrfRlyk5NL2NPJmdh0ZzLk3CqKObp-kY29DnazD5I_Dsv1diP/exec?table=5&type=waiter&key=012305");
+fetch("https://script.google.com/macros/s/AKfycbyd-e13b-sgUsMYoYFSd_uGAqym-S1F2TxEkHjqxSeZgUdLaq4K9yuCsbPnvlzgVWhK/exec?table=5&type=waiter&key=012305");
 alert("تم طلب ويتر");
 }
 
