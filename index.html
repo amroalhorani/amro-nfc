@@ -436,9 +436,12 @@ content.innerHTML=`
 
 <div class="game-card">
 <div class="game-icon">🎨</div>
-<div class="game-title">Skribbl.io</div>
+<div class="game-title">
+${lang==="ar"?"لعبة الرسم":"Skribbl.io"}
+</div>
 
 <div class="game-actions">
+
 <button onclick="window.open('https://skribbl.io')">
 ▶️ ${text[lang].play}
 </button>
@@ -447,14 +450,18 @@ content.innerHTML=`
 onclick="speakCustom('${lang==="ar"?"لعبة رسم":"Drawing game"}')">
 🎤
 </button>
+
 </div>
 </div>
 
 <div class="game-card">
 <div class="game-icon">😂</div>
-<div class="game-title">Gartic Phone</div>
+<div class="game-title">
+${lang==="ar"?"لعبة جماعية":"Gartic Phone"}
+</div>
 
 <div class="game-actions">
+
 <button onclick="window.open('https://garticphone.com')">
 ▶️ ${text[lang].play}
 </button>
@@ -463,6 +470,47 @@ onclick="speakCustom('${lang==="ar"?"لعبة رسم":"Drawing game"}')">
 onclick="speakCustom('${lang==="ar"?"لعبة جماعية":"Party game"}')">
 🎤
 </button>
+
+</div>
+</div>
+
+<div class="game-card">
+<div class="game-icon">🧠</div>
+<div class="game-title">
+${lang==="ar"?"لعبة ذكاء":"Codenames"}
+</div>
+
+<div class="game-actions">
+
+<button onclick="window.open('https://codenames.game')">
+▶️ ${text[lang].play}
+</button>
+
+<button class="mic-btn"
+onclick="speakCustom('${lang==="ar"?"لعبة ذكاء":"Brain game"}')">
+🎤
+</button>
+
+</div>
+</div>
+
+<div class="game-card">
+<div class="game-icon">🕵️</div>
+<div class="game-title">
+${lang==="ar"?"لعبة مافيا":"Mafia"}
+</div>
+
+<div class="game-actions">
+
+<button onclick="window.open('https://www.jm3tmafia.com/game')">
+▶️ ${text[lang].play}
+</button>
+
+<button class="mic-btn"
+onclick="speakCustom('${lang==="ar"?"لعبة مافيا":"Mafia game"}')">
+🎤
+</button>
+
 </div>
 </div>
 
