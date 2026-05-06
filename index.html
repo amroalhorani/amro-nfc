@@ -45,11 +45,17 @@ h1 {
   justify-content: space-between;
 }
 
-.card:hover { transform: scale(1.03); }
+.card:hover {
+  transform: scale(1.03);
+}
 
-.big { background:#bf360c; }
+.big {
+  background:#bf360c;
+}
 
-#content { padding:20px; }
+#content {
+  padding:20px;
+}
 
 img {
   width: 85%;
@@ -65,6 +71,7 @@ img {
   border-radius:15px;
   display:flex;
   justify-content:space-between;
+  align-items:center;
 }
 
 .cart{
@@ -82,7 +89,15 @@ button{
   color:white;
 }
 
-/* 🎮 الألعاب */
+.note-input{
+  width:90%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+}
+
+/* الألعاب */
 .games-grid {
   display: grid;
   gap: 15px;
@@ -112,17 +127,8 @@ button{
   gap: 10px;
 }
 
-.game-card button {
-  background: #bf360c;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
-}
-
 .mic-btn {
-  background: #6d4c41;
+  background:#6d4c41;
 }
 </style>
 </head>
@@ -191,7 +197,8 @@ bill:"الفاتورة",
 send:"إرسال الطلب",
 yourOrder:"طلبك",
 total:"المجموع",
-play:"العب الآن"
+play:"العب الآن",
+note:"اكتب ملاحظة"
 },
 en:{
 menu:"Menu",
@@ -204,12 +211,14 @@ bill:"Bill",
 send:"Send Order",
 yourOrder:"Your Order",
 total:"Total",
-play:"Play Now"
+play:"Play Now",
+note:"Write note"
 }
 };
 
 function setLang(l){
 lang=l;
+
 menuText.innerText="📖 "+text[l].menu;
 orderText.innerText="🛒 "+text[l].order;
 locText.innerText="📍 "+text[l].location;
@@ -239,26 +248,75 @@ behavior: "smooth"
 }
 
 function showMenu(){
+
 content.innerHTML=`
 <h2>${text[lang].menu}</h2>
+
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194629/1_fr367x.jpg">
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/9_ljn4uk.jpg">
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/4_joqmep.jpg">
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/5_azsne8.jpg">
 <img src="https://res.cloudinary.com/dziozcvsx/image/upload/v1776194630/6_fv3i5l.jpg">
 `;
+
 scrollDown();
 }
 
 let cart=[];
 
 function showOrderMenu(){
+
 content.innerHTML=`
+
 <h2>${text[lang].order}</h2>
 
-<div class="menu-item">🍔 برجر 5 JD <button onclick="add('🍔 برجر',5)">+</button></div>
-<div class="menu-item">🍕 بيتزا 8 JD <button onclick="add('🍕 بيتزا',8)">+</button></div>
-<div class="menu-item">🥤 عصير 3 JD <button onclick="add('🥤 عصير',3)">+</button></div>
+<div class="menu-item">
+🍔 برجر 5 JD
+<div>
+<input class="note-input" id="note1" placeholder="${text[lang].note}">
+<button onclick="add('🍔 برجر',5,'note1')">+</button>
+</div>
+</div>
+
+<div class="menu-item">
+🍕 بيتزا 8 JD
+<div>
+<input class="note-input" id="note2" placeholder="${text[lang].note}">
+<button onclick="add('🍕 بيتزا',8,'note2')">+</button>
+</div>
+</div>
+
+<div class="menu-item">
+🥤 عصير 3 JD
+<div>
+<input class="note-input" id="note3" placeholder="${text[lang].note}">
+<button onclick="add('🥤 عصير',3,'note3')">+</button>
+</div>
+</div>
+
+<div class="menu-item">
+🍟 بطاطا 4 JD
+<div>
+<input class="note-input" id="note4" placeholder="${text[lang].note}">
+<button onclick="add('🍟 بطاطا',4,'note4')">+</button>
+</div>
+</div>
+
+<div class="menu-item">
+☕ قهوة 2 JD
+<div>
+<input class="note-input" id="note5" placeholder="${text[lang].note}">
+<button onclick="add('☕ قهوة',2,'note5')">+</button>
+</div>
+</div>
+
+<div class="menu-item">
+🍰 تشيز كيك 6 JD
+<div>
+<input class="note-input" id="note6" placeholder="${text[lang].note}">
+<button onclick="add('🍰 تشيز كيك',6,'note6')">+</button>
+</div>
+</div>
 
 <div class="cart" id="cart"></div>
 
@@ -269,18 +327,46 @@ updateCart();
 scrollDown();
 }
 
-function add(name,price){
-cart.push({name,price});
+function add(name,price,noteId){
+
+let note=document.getElementById(noteId).value;
+
+let existing=cart.find(item =>
+item.name===name && item.note===note
+);
+
+if(existing){
+existing.qty+=1;
+}
+else{
+cart.push({
+name:name,
+price:price,
+qty:1,
+note:note
+});
+}
+
 updateCart();
 }
 
 function updateCart(){
+
 let total=0;
+
 let html="<h3>"+text[lang].yourOrder+"</h3>";
 
 cart.forEach(i=>{
-html+=i.name+"<br>";
-total+=i.price;
+
+html+=`
+<div style="margin:10px 0;">
+${i.name} x${i.qty}
+<br>
+${i.note ? "📝 "+i.note : ""}
+</div>
+`;
+
+total+=i.price*i.qty;
 });
 
 html+=`<hr>${text[lang].total}: ${total} JD`;
@@ -289,42 +375,50 @@ document.getElementById("cart").innerHTML=html;
 }
 
 function sendOrder(){
-  const table = 5;
 
-  if(cart.length === 0){
-    alert("السلة فاضية");
-    return;
-  }
+const table=5;
 
-  let order = JSON.stringify(cart);
-
-  fetch("https://script.google.com/macros/s/AKfycbyd-e13b-sgUsMYoYFSd_uGAqym-S1F2TxEkHjqxSeZgUdLaq4K9yuCsbPnvlzgVWhK/exec?table="
-  + table +
-  "&type=order&key=012305&order=" + encodeURIComponent(order))
-  .then(res => res.text())
-  .then(data => {
-    console.log(data);
-    alert("تم إرسال الطلب");
-    cart = [];
-    updateCart();
-  })
-  .catch(err => {
-    console.log(err);
-    alert("فشل الإرسال");
-  });
+if(cart.length===0){
+alert("السلة فاضية");
+return;
 }
-  
+
+let order=JSON.stringify(cart);
+
+fetch("YOUR_SCRIPT_URL?table="+table+
+"&type=order&key=012305&order="+encodeURIComponent(order))
+
+.then(res=>res.text())
+
+.then(data=>{
+
+alert("تم إرسال الطلب");
+
+cart=[];
+
+updateCart();
+});
+}
+
 function openLocation(){
 window.open("https://maps.google.com/?q=Amman");
 }
 
 function showVideo(){
-content.innerHTML=`<iframe src="https://www.youtube.com/embed/5QG4drW8zdY" allowfullscreen></iframe>`;
+
+content.innerHTML=`
+<iframe width="95%" height="250"
+src="https://www.youtube.com/embed/5QG4drW8zdY"
+allowfullscreen></iframe>
+`;
+
 scrollDown();
 }
 
 function callWaiter(){
-fetch("https://script.google.com/macros/s/AKfycbyd-e13b-sgUsMYoYFSd_uGAqym-S1F2TxEkHjqxSeZgUdLaq4K9yuCsbPnvlzgVWhK/exec?table=5&type=waiter&key=012305");
+
+fetch("YOUR_SCRIPT_URL?table=5&type=waiter&key=012305");
+
 alert("تم طلب ويتر");
 }
 
@@ -333,7 +427,9 @@ window.open("bill.html?table=5");
 }
 
 function showGames(){
+
 content.innerHTML=`
+
 <h2>${text[lang].games}</h2>
 
 <div class="games-grid">
@@ -341,36 +437,32 @@ content.innerHTML=`
 <div class="game-card">
 <div class="game-icon">🎨</div>
 <div class="game-title">Skribbl.io</div>
+
 <div class="game-actions">
-<button onclick="window.open('https://skribbl.io')">▶️ ${text[lang].play}</button>
-<button class="mic-btn" onclick="speakCustom('${lang==="ar"?"لعبة رسم":"Drawing game"}')">🎤</button>
+<button onclick="window.open('https://skribbl.io')">
+▶️ ${text[lang].play}
+</button>
+
+<button class="mic-btn"
+onclick="speakCustom('${lang==="ar"?"لعبة رسم":"Drawing game"}')">
+🎤
+</button>
 </div>
 </div>
 
 <div class="game-card">
 <div class="game-icon">😂</div>
 <div class="game-title">Gartic Phone</div>
-<div class="game-actions">
-<button onclick="window.open('https://garticphone.com')">▶️ ${text[lang].play}</button>
-<button class="mic-btn" onclick="speakCustom('${lang==="ar"?"لعبة جماعية":"Party game"}')">🎤</button>
-</div>
-</div>
 
-<div class="game-card">
-<div class="game-icon">🧠</div>
-<div class="game-title">Codenames</div>
 <div class="game-actions">
-<button onclick="window.open('https://www.codenames.game')">▶️ ${text[lang].play}</button>
-<button class="mic-btn" onclick="speakCustom('${lang==="ar"?"لعبة ذكاء":"Brain game"}')">🎤</button>
-</div>
-</div>
+<button onclick="window.open('https://garticphone.com')">
+▶️ ${text[lang].play}
+</button>
 
-<div class="game-card">
-<div class="game-icon">🕵️</div>
-<div class="game-title">Mafia</div>
-<div class="game-actions">
-<button onclick="window.open('https://www.jm3tmafia.com/game')">▶️ ${text[lang].play}</button>
-<button class="mic-btn" onclick="speakCustom('${lang==="ar"?"لعبة مافيا":"Mafia game"}')">🎤</button>
+<button class="mic-btn"
+onclick="speakCustom('${lang==="ar"?"لعبة جماعية":"Party game"}')">
+🎤
+</button>
 </div>
 </div>
 
