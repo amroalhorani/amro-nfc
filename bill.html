@@ -23,7 +23,7 @@ body{
   background:#4e342e;
   padding:20px;
   border-radius:20px;
-  max-width:400px;
+  max-width:500px;
   margin:auto;
 }
 
@@ -32,14 +32,27 @@ h1{
 }
 
 .item{
+  background:#3b2722;
+  padding:12px;
+  border-radius:12px;
+  margin:10px 0;
+  text-align:right;
+}
+
+.item-top{
   display:flex;
   justify-content:space-between;
-  margin:8px 0;
+  margin-bottom:5px;
+}
+
+.note{
+  color:#ffcc80;
+  font-size:14px;
 }
 
 .total{
   margin-top:15px;
-  font-size:20px;
+  font-size:22px;
   border-top:1px solid #aaa;
   padding-top:10px;
 }
@@ -53,10 +66,25 @@ button{
   cursor:pointer;
 }
 
-.pay{background:#bf360c;color:white;}
-.cash{background:#2e7d32;color:white;}
-.card{background:#1565c0;color:white;}
-.download{background:#6d4c41;color:white;}
+.pay{
+  background:#bf360c;
+  color:white;
+}
+
+.cash{
+  background:#2e7d32;
+  color:white;
+}
+
+.card{
+  background:#1565c0;
+  color:white;
+}
+
+.download{
+  background:#6d4c41;
+  color:white;
+}
 </style>
 </head>
 
@@ -90,68 +118,110 @@ button{
 const urlParams = new URLSearchParams(window.location.search);
 const table = urlParams.get("table") || 1;
 
-document.getElementById("table").innerText = "رقم الطاولة: " + table;
+document.getElementById("table").innerText =
+"رقم الطاولة: " + table;
 
-// 🔥 رابط السكربت
-const baseURL = "https://script.google.com/macros/s/AKfycbyd-e13b-sgUsMYoYFSd_uGAqym-S1F2TxEkHjqxSeZgUdLaq4K9yuCsbPnvlzgVWhK/exec";
+const baseURL =
+"https://script.google.com/macros/s/AKfycbyUhzdAMzh1Qoo_kX-sb4i8fz2vHQDFnOy60FC2faybnKjO3JesoLnnyoKGDuq4xM2I/exec";
+
 const key = "012305";
 
 // =======================
-// 🧾 LIVE ORDERS SYSTEM
+// 🧾 تحميل الطلبات
 // =======================
 
-function loadOrders() {
+function loadOrders(){
 
-  fetch(baseURL + "?table=" + table + "&type=getOrders&key=" + key)
-    .then(res => res.json())
-    .then(data => {
+fetch(
+baseURL +
+"?table=" + table +
+"&type=getOrders&key=" + key
+)
 
-      let html = "";
-      let total = 0;
+.then(res => res.json())
 
-      data.forEach(item => {
+.then(data => {
 
-        html += `
-          <div class="item">
-            <span>${item.item}</span>
-            <span>${item.price} JD</span>
-          </div>
-        `;
+let html = "";
+let total = 0;
 
-        total += Number(item.price);
-      });
+data.forEach(item => {
 
-      document.getElementById("items").innerHTML = html;
-      document.getElementById("total").innerText = "المجموع: " + total + " JD";
+let qty = item.quantity || 1;
+let note = item.note || "";
 
-    })
-    .catch(err => {
-      console.log("Error loading orders", err);
-    });
+html += `
+<div class="item">
+
+<div class="item-top">
+<span>${item.item} × ${qty}</span>
+<span>${item.price * qty} JD</span>
+</div>
+
+${note ? `<div class="note">📝 ${note}</div>` : ""}
+
+</div>
+`;
+
+total += Number(item.price) * Number(qty);
+
+});
+
+document.getElementById("items").innerHTML = html;
+
+document.getElementById("total").innerText =
+"المجموع: " + total + " JD";
+
+})
+
+.catch(err => {
+console.log(err);
+});
+
 }
 
 // أول تحميل
 loadOrders();
 
-// تحديث تلقائي كل 3 ثواني
-setInterval(loadOrders, 3000);
+// تحديث تلقائي
+setInterval(loadOrders,3000);
 
 // =======================
 // 💰 الدفع
 // =======================
 
 function showPayment(){
-  document.getElementById("paymentOptions").style.display = "block";
+
+document.getElementById("paymentOptions").style.display = "block";
+
 }
 
 function payCash(){
-  fetch(baseURL + "?table=" + table + "&type=cash&key=" + key)
-    .then(()=>alert("تم طلب الدفع كاش"));
+
+fetch(
+baseURL +
+"?table=" + table +
+"&type=cash&key=" + key
+)
+
+.then(() => {
+alert("تم طلب الدفع كاش");
+});
+
 }
 
 function payCard(){
-  fetch(baseURL + "?table=" + table + "&type=card&key=" + key)
-    .then(()=>alert("تم طلب الدفع فيزا"));
+
+fetch(
+baseURL +
+"?table=" + table +
+"&type=card&key=" + key
+)
+
+.then(() => {
+alert("تم طلب الدفع فيزا");
+});
+
 }
 
 // =======================
@@ -159,7 +229,9 @@ function payCard(){
 // =======================
 
 function downloadBill(){
-  window.print();
+
+window.print();
+
 }
 
 </script>
