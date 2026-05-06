@@ -385,7 +385,7 @@ return;
 
 let order=JSON.stringify(cart);
 
-fetch("YOUR_SCRIPT_URL?table="+table+
+fetch("https://script.google.com/macros/s/AKfycbyUhzdAMzh1Qoo_kX-sb4i8fz2vHQDFnOy60FC2faybnKjO3JesoLnnyoKGDuq4xM2I/exec?table="+table+
 "&type=order&key=012305&order="+encodeURIComponent(order))
 
 .then(res=>res.text())
@@ -417,7 +417,7 @@ scrollDown();
 
 function callWaiter(){
 
-fetch("YOUR_SCRIPT_URL?table=5&type=waiter&key=012305");
+fetch("https://script.google.com/macros/s/AKfycbyUhzdAMzh1Qoo_kX-sb4i8fz2vHQDFnOy60FC2faybnKjO3JesoLnnyoKGDuq4xM2I/exec?table=5&type=waiter&key=012305");
 
 alert("تم طلب ويتر");
 }
