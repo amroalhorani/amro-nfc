@@ -356,22 +356,86 @@ let total=0;
 
 let html="<h3>"+text[lang].yourOrder+"</h3>";
 
-cart.forEach(i=>{
+cart.forEach((i,index)=>{
 
 html+=`
-<div style="margin:10px 0;">
+
+<div style="
+background:#4e342e;
+padding:12px;
+margin:10px 0;
+border-radius:12px;
+text-align:right;
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+">
+
+<div>
+
+<div style="font-size:18px;">
 ${i.name} x${i.qty}
-<br>
-${i.note ? "📝 "+i.note : ""}
+</div>
+
+${i.note ? `
+<div style="
+margin-top:5px;
+color:#ffcc80;
+font-size:14px;
+">
+📝 ${i.note}
+</div>
+` : ""}
+
+</div>
+
+<button onclick="removeItem(${index})"
+style="
+background:#c62828;
+padding:8px 12px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+">
+❌
+</button>
+
+</div>
+
 </div>
 `;
 
 total+=i.price*i.qty;
+
 });
 
-html+=`<hr>${text[lang].total}: ${total} JD`;
+html+=`
+<hr>
+${text[lang].total}: ${total} JD
+`;
 
 document.getElementById("cart").innerHTML=html;
+
+}
+
+function removeItem(index){
+
+if(cart[index].qty > 1){
+
+cart[index].qty--;
+
+}else{
+
+cart.splice(index,1);
+
+}
+
+updateCart();
+
 }
 
 function sendOrder(){
